@@ -1,1 +1,793 @@
-<h1>Welcome</h1>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গবেষণা সহায়িকা: ধারণা থেকে ফলাফল পর্যন্ত একটি ইন্টারেক্টিভ গাইড</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: #118AB2;
+            line-height: 1;
+        }
+        .flow-card {
+            background-color: white;
+            border: 2px solid #118AB2;
+            color: #073B4C;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #118AB2;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800">
+
+    <header class="bg-[#073B4C] text-white p-6 md:p-10 text-center shadow-lg">
+        <h1 class="text-3xl md:text-5xl font-bold mb-2">গবেষণা সহায়িকা: একটি ইন্টারেক্টিভ গাইড</h1>
+        <p class="text-lg md:text-xl text-slate-300">আপনার গবেষণা প্রকল্পের ধারণা থেকে ফলাফল পর্যন্ত একটি পূর্ণাঙ্গ রিসোর্স</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="section1" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#118AB2]">১. গবেষণার সূচনা: একটি ধারণার জন্ম</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">যেকোনো গবেষণা একটি সমস্যা বা প্রশ্ন দিয়ে শুরু হয়। এই বিভাগে আমরা দেখব কীভাবে একটি সাধারণ ধারণা থেকে একটি পরীক্ষাযোগ্য হাইপোথিসিস তৈরি হয়।</p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
+                <div class="text-center p-6 rounded-lg flow-card shadow-md w-64">
+                    <h3 class="font-bold text-xl mb-2">সমস্যা বিবৃতি</h3>
+                    <p class="text-sm">একটি নির্দিষ্ট, বাস্তব সমস্যা যা সমাধান করা প্রয়োজন।</p>
+                </div>
+                <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
+                <div class="text-center p-6 rounded-lg flow-card shadow-md w-64">
+                    <h3 class="font-bold text-xl mb-2">গবেষণা প্রশ্ন</h3>
+                    <p class="text-sm">সমস্যাটিকে একটি স্পষ্ট এবং সংক্ষিপ্ত প্রশ্নে পরিণত করা।</p>
+                </div>
+                <div class="flow-arrow transform md:rotate-0 rotate-90">→</div>
+                <div class="text-center p-6 rounded-lg flow-card shadow-md w-64">
+                    <h3 class="font-bold text-xl mb-2">হাইপোথিসিস</h3>
+                    <p class="text-sm">প্রশ্নের একটি সম্ভাব্য, পরীক্ষাযোগ্য উত্তর বা ভবিষ্যদ্বাণী।</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#118AB2]">বিমূর্ত (Abstract) জেনারেটর ✨</h3>
+                <p class="mb-4 text-slate-600">আপনার গবেষণার মূল বিষয় বা কিওয়ার্ডগুলি লিখুন এবং একটি সংক্ষিপ্ত বিমূর্ত তৈরি করুন।</p>
+                <textarea id="abstractInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#118AB2] mb-4" rows="4" placeholder="উদাহরণ: অনলাইন ক্লাসের ফলে শিক্ষার্থীদের মনোযোগ কমেছে কিনা এবং এর কারণ ও প্রভাব কী।"></textarea>
+                <button id="generateAbstractBtn" class="bg-[#118AB2] text-white py-2 px-4 rounded-md hover:bg-[#0e749a] transition duration-300 flex items-center justify-center">
+                    <span id="abstractLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    বিমূর্ত জেনারেট করুন
+                </button>
+                <div id="generatedAbstractOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#FFD166]">হাইপোথিসিস জেনারেটর ✨</h3>
+                <p class="mb-4 text-slate-600">আপনার গবেষণা প্রশ্ন লিখুন এবং জেমিনি এপিআই ব্যবহার করে একটি সম্ভাব্য হাইপোথিসিস তৈরি করুন।</p>
+                <textarea id="hypothesisInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD166] mb-4" rows="4" placeholder="আপনার গবেষণা প্রশ্ন লিখুন, যেমন: 'কম ঘুম কি শিক্ষার্থীদের একাডেমিক পারফরম্যান্স কমায়?'"></textarea>
+                <button id="generateHypothesisBtn" class="bg-[#FFD166] text-white py-2 px-4 rounded-md hover:bg-[#e6be5c] transition duration-300 flex items-center justify-center">
+                    <span id="hypothesisLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    হাইপোথিসিস জেনারেট করুন
+                </button>
+                <div id="generatedHypothesisOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+        </section>
+
+        <section id="section2" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#118AB2]">২. গবেষণার ভিত্তিপ্রস্তর</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">যেকোনো গবেষণা প্রকল্পের জন্য একটি শক্তিশালী ভিত্তি প্রয়োজন। এর মধ্যে রয়েছে অধ্যয়নের তাৎপর্য বোঝা এবং এর সীমানা নির্ধারণ করা।</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#FF6B6B]">
+                    <h3 class="font-bold text-xl mb-2">সাহিত্য পর্যালোচনা</h3>
+                    <p>বিষয়টি নিয়ে পূর্ববর্তী গবেষণাগুলো জানা এবং জ্ঞানের ফাঁক খুঁজে বের করা।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#FFD166]">
+                    <h3 class="font-bold text-xl mb-2">তাৎপর্য</h3>
+                    <p>এই গবেষণাটি কেন গুরুত্বপূর্ণ এবং এটি সমাজে বা জ্ঞানে কী অবদান রাখবে।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl mb-2">পরিধি (Scope)</h3>
+                    <p>গবেষণার সীমানা নির্ধারণ করা—কী অন্তর্ভুক্ত এবং কী বাদ দেওয়া হবে।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#118AB2]">
+                    <h3 class="font-bold text-xl mb-2">সীমাবদ্ধতা</h3>
+                    <p>গবেষণার দুর্বলতা বা যে বিষয়গুলো নিয়ন্ত্রণ করা যায়নি তা স্বীকার করা।</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="section3" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#118AB2]">৩. গবেষকের সরঞ্জাম: গবেষণা পদ্ধতি</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">গবেষণার প্রশ্নের উপর ভিত্তি করে সঠিক পদ্ধতি বেছে নেওয়া হয়। প্রধানত তিন ধরনের পদ্ধতি প্রচলিত আছে।</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                     <h3 class="font-bold text-2xl mb-4 text-center">পদ্ধতির ব্যবহার (আনুমানিক)</h3>
+                    <div class="chart-container h-[300px] md:h-[350px]">
+                        <canvas id="methodologyChart"></canvas>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="font-bold text-xl text-[#06D6A0]">পরিমাণগত গবেষণা</h4>
+                        <p>সংখ্যাসূচক ডেটা এবং পরিসংখ্যান ব্যবহার করে 'কত?' বা 'কতটা?' প্রশ্নের উত্তর খোঁজা হয়। ফলাফল বৃহৎ জনগোষ্ঠীর উপর সাধারণীকরণ করা যায়।</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="font-bold text-xl text-[#FFD166]">গুণগত গবেষণা</h4>
+                        <p>অভিজ্ঞতা, ধারণা এবং আচরণের গভীর অন্তর্দৃষ্টি অন্বেষণ করে। 'কেন?' বা 'কীভাবে?' প্রশ্নের উত্তর দেয়।</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="font-bold text-xl text-[#FF6B6B]">মিশ্র পদ্ধতি</h4>
+                        <p>পরিমাণগত ও গুণগত উভয় পদ্ধতির সংমিশ্রণ ঘটিয়ে একটি বিষয়কে বিভিন্ন দৃষ্টিকোণ থেকে বোঝা হয়।</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#118AB2]">গবেষণা পদ্ধতি সুপারিশকারী ✨</h3>
+                <p class="mb-4 text-slate-600">আপনার গবেষণা প্রশ্ন বা উদ্দেশ্য লিখুন এবং জেমিনি এপিআই থেকে উপযুক্ত পদ্ধতি সুপারিশ পান।</p>
+                <textarea id="methodologyInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#118AB2] mb-4" rows="4" placeholder="উদাহরণ: 'বাংলাদেশের গ্রামীণ এলাকায় মোবাইল ব্যাংকিং-এর প্রভাব কী এবং কেন?'"></textarea>
+                <button id="suggestMethodologyBtn" class="bg-[#118AB2] text-white py-2 px-4 rounded-md hover:bg-[#0e749a] transition duration-300 flex items-center justify-center">
+                    <span id="methodologyLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    পদ্ধতি সুপারিশ করুন
+                </button>
+                <div id="suggestedMethodologyOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+        </section>
+
+        <section id="section4" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#118AB2]">৪. তথ্য সংগ্রহ</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">সঠিক তথ্য সংগ্রহ গবেষণার অখণ্ডতার জন্য অপরিহার্য। এখানে আমরা দেখব কীভাবে গবেষকরা তাদের প্রয়োজনীয় ডেটা সংগ্রহ করেন।</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-center">জনসংখ্যা বনাম নমুনা</h3>
+                     <p class="text-center text-sm mb-4 text-slate-500">গবেষণা সমগ্র জনসংখ্যার উপর করা কঠিন, তাই একটি ছোট প্রতিনিধিত্বমূলক অংশ (নমুনা) বেছে নেওয়া হয়।</p>
+                    <div class="chart-container h-[250px] md:h-[300px]">
+                        <canvas id="populationSampleChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4 text-center">তথ্য সংগ্রহের পদ্ধতির তুলনা</h3>
+                     <p class="text-center text-sm mb-4 text-slate-500">প্রতিটি পদ্ধতির নিজস্ব সুবিধা এবং দুর্বলতা রয়েছে।</p>
+                    <div class="chart-container h-[250px] md:h-[300px]">
+                        <canvas id="dataCollectionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#118AB2]">ডেটা সংগ্রহের কৌশল সুপারিশকারী ✨</h3>
+                <p class="mb-4 text-slate-600">আপনার গবেষণার জন্য কী ধরনের ডেটা প্রয়োজন তা বর্ণনা করুন এবং জেমিনি এপিআই আপনাকে সম্ভাব্য ডেটা সংগ্রহের কৌশল বা উৎস সম্পর্কে পরামর্শ দেবে।</p>
+                <textarea id="dataCollectionAssistantInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#118AB2] mb-4" rows="4" placeholder="আপনার গবেষণার জন্য কী ধরনের ডেটা প্রয়োজন তা লিখুন, যেমন: 'শিক্ষার্থীদের অনলাইন শেখার অভিজ্ঞতা সম্পর্কে ব্যক্তিগত মতামত' বা 'শহুরে এলাকার বায়ু দূষণের মাত্রা'"></textarea>
+                <button id="suggestDataCollectionBtn" class="bg-[#118AB2] text-white py-2 px-4 rounded-md hover:bg-[#0e749a] transition duration-300 flex items-center justify-center">
+                    <span id="dataCollectionLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    কৌশল সুপারিশ করুন
+                </button>
+                <div id="suggestedDataCollectionOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+        </section>
+        
+        <section id="section5" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#118AB2]">৫. ফলাফল ও বিশ্লেষণ: ডেটা থেকে জ্ঞানে রূপান্তর</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">সংগৃহীত ডেটা বিশ্লেষণ করে অর্থপূর্ণ সিদ্ধান্তে পৌঁছানো হয় এবং তার ভিত্তিতে সুপারিশ করা হয়।</p>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+                 <div class="p-4 bg-white rounded-lg shadow-md flex items-center justify-center"><div><h3 class="font-bold">ডেটা বিশ্লেষণ</h3><p class="text-sm">তথ্য সাজানো ও ধরণ খোঁজা</p></div></div>
+                 <div class="flex items-center justify-center text-3xl text-[#118AB2] transform md:rotate-0 rotate-90">&rarr;</div>
+                 <div class="p-4 bg-white rounded-lg shadow-md flex items-center justify-center"><div><h3 class="font-bold">ফলাফল</h3><p class="text-sm">কী পাওয়া গেল তার বস্তুনিষ্ঠ বিবরণ</p></div></div>
+                 <div class="flex items-center justify-center text-3xl text-[#118AB2] transform md:rotate-0 rotate-90">&rarr;</div>
+                 <div class="p-4 bg-white rounded-lg shadow-md flex items-center justify-center"><div><h3 class="font-bold">উপসংহার ও সুপারিশ</h3><p class="text-sm">ফলাফলের অর্থ এবং করণীয় সম্পর্কে পরামর্শ</p></div></div>
+            </div>
+
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#FFD166]">ডেটা ব্যাখ্যা সহকারী ✨</h3>
+                <p class="mb-4 text-slate-600">আপনার গবেষণার প্রাপ্ত ফলাফল বা ডেটার মূল বিষয়বস্তু দিন, আমি সেগুলোর সম্ভাব্য ব্যাখ্যা বা মূল বার্তা তৈরি করে দেব।</p>
+                <textarea id="dataInterpretationInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FFD166] mb-4" rows="4" placeholder="আপনার গবেষণার ফলাফল সংক্ষেপে লিখুন, যেমন: 'জরিপে দেখা গেছে যে ৫০% শিক্ষার্থী অনলাইন ক্লাসে মনোযোগ হারাচ্ছে এবং এটি তাদের পরীক্ষায় খারাপ ফল করেছে'"></textarea>
+                <button id="interpretDataBtn" class="bg-[#FFD166] text-white py-2 px-4 rounded-md hover:bg-[#e6be5c] transition duration-300 flex items-center justify-center">
+                    <span id="dataInterpretationLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    ডেটা ব্যাখ্যা করুন
+                </button>
+                <div id="dataInterpretationOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+        </section>
+
+        <section id="section6" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#118AB2]">৬. অখণ্ডতা ও স্বীকৃতি: নৈতিকতা এবং পিয়ার রিভিউ</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">যেকোনো গবেষণার বিশ্বাসযোগ্যতা তার নৈতিক অনুশীলন এবং স্বাধীন মূল্যায়নের উপর নির্ভর করে।</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4">নৈতিক বিবেচনা</h3>
+                    <ul class="space-y-3 list-inside">
+                        <li class="flex items-start"><span class="text-[#06D6A0] mr-2">✔</span> <strong>অবহিত সম্মতি:</strong> অংশগ্রহণের আগে সম্পূর্ণ তথ্য দিয়ে অনুমতি নেওয়া।</li>
+                        <li class="flex items-start"><span class="text-[#06D6A0] mr-2">✔</span> <strong>গোপনীয়তা:</strong> অংশগ্রহণকারীর ব্যক্তিগত তথ্য সুরক্ষিত রাখা।</li>
+                        <li class="flex items-start"><span class="text-[#06D6A0] mr-2">✔</span> <strong>ক্ষতি পরিহার:</strong> শারীরিক বা মানসিক ক্ষতি থেকে অংশগ্রহণকারীকে রক্ষা করা।</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="font-bold text-2xl mb-4">পিয়ার রিভিউ প্রক্রিয়া</h3>
+                     <ol class="list-decimal list-inside space-y-2 text-slate-700">
+                        <li><strong>জমা দেওয়া:</strong> গবেষক জার্নালে পাণ্ডুলিপি জমা দেন।</li>
+                        <li><strong>সম্পাদকীয় মূল্যায়ন:</strong> সম্পাদক প্রাথমিক গুণমান যাচাই করেন।</li>
+                        <li><strong>বিশেষজ্ঞ মূল্যায়ন:</strong> ক্ষেত্রের বিশেষজ্ঞরা পাণ্ডুলিপি পর্যালোচনা করেন।</li>
+                        <li><strong>সংশোধন:</strong> পর্যালোচনার ভিত্তিতে লেখক পাণ্ডুলিপি সংশোধন করেন।</li>
+                        <li><strong>প্রকাশনা:</strong> চূড়ান্ত অনুমোদনের পর গবেষণা প্রকাশিত হয়।</li>
+                     </ol>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#06D6A0]">নৈতিক বিবেচনা চেকলিস্ট জেনারেটর ✨</h3>
+                <p class="mb-4 text-slate-600">আপনার গবেষণার ধরন বা বিষয়বস্তু লিখুন (যেমন: মানব বিষয় গবেষণা, ডেটা গোপনীয়তা, পরিবেশ গবেষণা) এবং একটি মৌলিক নৈতিক চেকলিস্ট তৈরি করুন।</p>
+                <textarea id="ethicalInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#06D6A0] mb-4" rows="4" placeholder="আপনার গবেষণার ধরন বা বিষয়বস্তু লিখুন..."></textarea>
+                <button id="generateEthicalChecklistBtn" class="bg-[#06D6A0] text-white py-2 px-4 rounded-md hover:bg-[#049a6e] transition duration-300 flex items-center justify-center">
+                    <span id="ethicalLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    চেকলিস্ট জেনারেট করুন
+                </button>
+                <div id="generatedEthicalChecklistOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+
+            <div class="mt-12 p-6 bg-white rounded-xl shadow-lg">
+                <h3 class="font-bold text-2xl mb-4 text-[#FF6B6B]">গবেষণায় পক্ষপাত শনাক্তকারী ✨</h3>
+                <p class="mb-4 text-slate-600">একটি গবেষণা পরিস্থিতি বর্ণনা করুন এবং জেমিনি এপিআই সম্ভাব্য পক্ষপাত চিহ্নিত করবে।</p>
+                <textarea id="biasDetectorInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6B6B] mb-4" rows="4" placeholder="একটি গবেষণা পরিস্থিতি বর্ণনা করুন, যেমন: 'আমি শুধুমাত্র একটি নির্দিষ্ট এলাকার মানুষের উপর জরিপ করেছি, কিন্তু ফলাফল পুরো শহরের জন্য সাধারণীকরণ করতে চাই।'"></textarea>
+                <button id="detectBiasBtn" class="bg-[#FF6B6B] text-white py-2 px-4 rounded-md hover:bg-[#cc5656] transition duration-300 flex items-center justify-center">
+                    <span id="biasLoadingSpinner" class="loading-spinner hidden mr-2"></span>
+                    পক্ষপাত শনাক্ত করুন
+                </button>
+                <div id="detectedBiasOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-md text-slate-700 whitespace-pre-wrap hidden"></div>
+            </div>
+        </section>
+
+        <section id="general-tips" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#073B4C]">গবেষণার সাধারণ টিপস ও সেরা অনুশীলন</h2>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-slate-600">একটি সফল গবেষণা পরিচালনার জন্য কিছু সাধারণ দিকনির্দেশনা অনুসরণ করা গুরুত্বপূর্ণ।</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#118AB2]">
+                    <h3 class="font-bold text-xl mb-2">সুস্পষ্ট পরিকল্পনা</h3>
+                    <p>গবেষণা শুরু করার আগে একটি সুসংগঠিত পরিকল্পনা তৈরি করুন, যার মধ্যে গবেষণা প্রশ্ন, পদ্ধতি এবং ডেটা বিশ্লেষণের স্পষ্ট রূপরেখা থাকবে।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl mb-2">ধারাবাহিকতা ও সততা</h3>
+                    <p>ডেটা সংগ্রহ এবং বিশ্লেষণে ধারাবাহিকতা বজায় রাখুন। গবেষণার প্রতিটি ধাপে নৈতিক মানদণ্ড অনুসরণ করুন এবং ফলাফলে সৎ থাকুন।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#FFD166]">
+                    <h3 class="font-bold text-xl mb-2">পর্যালোচনা ও প্রতিক্রিয়া</h3>
+                    <p>আপনার কাজ নিয়মিতভাবে সহকর্মী বা অভিজ্ঞ গবেষকদের দ্বারা পর্যালোচনা করান এবং তাদের গঠনমূলক প্রতিক্রিয়া গ্রহণ করুন। এটি আপনার গবেষণার মান উন্নত করবে।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#FF6B6B]">
+                    <h3 class="font-bold text-xl mb-2">নথিভুক্তকরণ</h3>
+                    <p>আপনার গবেষণার প্রতিটি ধাপ, ডেটা সংগ্রহ থেকে শুরু করে বিশ্লেষণের পদ্ধতি পর্যন্ত, বিস্তারিতভাবে নথিভুক্ত করুন। এটি পুনরুৎপাদনযোগ্যতা নিশ্চিত করবে।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#118AB2]">
+                    <h3 class="font-bold text-xl mb-2">সমালোচনা ও অভিযোজন</h3>
+                    <p>আপনার গবেষণার সীমাবদ্ধতাগুলি স্বীকার করুন এবং ভবিষ্যতের গবেষণার জন্য নতুন দিকনির্দেশনা প্রস্তাব করুন। প্রয়োজনে আপনার পরিকল্পনা বা পদ্ধতির সাথে মানিয়ে নিতে প্রস্তুত থাকুন।</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-b-4 border-[#06D6A0]">
+                    <h3 class="font-bold text-xl mb-2">সময় ব্যবস্থাপনা</h3>
+                    <p>গবেষণা একটি সময়সাপেক্ষ প্রক্রিয়া। প্রতিটি ধাপের জন্য পর্যাপ্ত সময় বরাদ্দ করুন এবং সময়সীমা মেনে চলার চেষ্টা করুন।</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#073B4C] text-white p-6 text-center mt-10">
+        <p>&copy; ২০২৫ গবেষণা সহায়িকা। সকল তথ্য শিক্ষামূলক উদ্দেশ্যে ব্যবহৃত।</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxLength = 16) => {
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+
+        const sharedTooltipOptions = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const methodologyCtx = document.getElementById('methodologyChart').getContext('2d');
+            new Chart(methodologyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['পরিমাণগত গবেষণা', 'গুণগত গবেষণা', 'মিশ্র পদ্ধতি'],
+                    datasets: [{
+                        label: 'পদ্ধতির ব্যবহার',
+                        data: [45, 35, 20],
+                        backgroundColor: ['#06D6A0', '#FFD166', '#FF6B6B'],
+                        borderColor: '#ffffff',
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            const populationSampleCtx = document.getElementById('populationSampleChart').getContext('2d');
+            new Chart(populationSampleCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['গবেষণার ক্ষেত্র'],
+                    datasets: [{
+                        label: 'জনসংখ্যা',
+                        data: [10000],
+                        backgroundColor: '#118AB2',
+                        barPercentage: 0.5,
+                    }, {
+                        label: 'নমুনা',
+                        data: [500],
+                        backgroundColor: '#FFD166',
+                        barPercentage: 0.5,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            type: 'logarithmic',
+                             ticks: {
+                                callback: function(value, index, values) {
+                                    if (value === 10000 || value === 1000 || value === 100 || value === 10 || value === 1) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: false }
+                    }
+                }
+            });
+
+            const dataCollectionCtx = document.getElementById('dataCollectionChart').getContext('2d');
+            new Chart(dataCollectionCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['গভীরতা', 'প্রসার', 'ব্যয়', 'সময়', 'বস্তুনিষ্ঠতা'],
+                    datasets: [{
+                        label: 'জরিপ',
+                        data: [3, 9, 8, 8, 7],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 107, 107, 0.2)',
+                        borderColor: '#FF6B6B',
+                        pointBackgroundColor: '#FF6B6B'
+                    }, {
+                        label: 'সাক্ষাৎকার',
+                        data: [9, 3, 3, 4, 5],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 209, 102, 0.2)',
+                        borderColor: '#FFD166',
+                        pointBackgroundColor: '#FFD166'
+                    }, {
+                        label: 'পর্যবেক্ষণ',
+                        data: [7, 4, 5, 3, 8],
+                        fill: true,
+                        backgroundColor: 'rgba(6, 214, 160, 0.2)',
+                        borderColor: '#06D6A0',
+                        pointBackgroundColor: '#06D6A0'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            borderWidth: 2
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+
+            const apiKey = ""; 
+            const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
+
+            const abstractInput = document.getElementById('abstractInput');
+            const generateAbstractBtn = document.getElementById('generateAbstractBtn');
+            const generatedAbstractOutput = document.getElementById('generatedAbstractOutput');
+            const abstractLoadingSpinner = document.getElementById('abstractLoadingSpinner');
+
+            generateAbstractBtn.addEventListener('click', async () => {
+                const promptText = abstractInput.value.trim();
+                if (!promptText) {
+                    generatedAbstractOutput.textContent = 'অনুগ্রহ করে কিছু বিষয়বস্তু লিখুন।';
+                    generatedAbstractOutput.classList.remove('hidden');
+                    return;
+                }
+
+                abstractLoadingSpinner.classList.remove('hidden');
+                generateAbstractBtn.disabled = true;
+                generatedAbstractOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `একটি গবেষণার বিমূর্ত (abstract) তৈরি করুন। বিষয়বস্তু: ${promptText}। বিমূর্তটি ১৫০-৩০০ শব্দের মধ্যে একটি সংক্ষিপ্ত সারসংক্ষেপ হতে হবে।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        generatedAbstractOutput.textContent = result.candidates[0].content.parts[0].text;
+                        generatedAbstractOutput.classList.remove('hidden');
+                    } else {
+                        generatedAbstractOutput.textContent = 'বিমূর্ত জেনারেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        generatedAbstractOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error generating abstract:', error);
+                    generatedAbstractOutput.textContent = 'বিমূর্ত জেনারেট করার সময় একটি ত্রুটি হয়েছে।';
+                    generatedAbstractOutput.classList.remove('hidden');
+                } finally {
+                    abstractLoadingSpinner.classList.add('hidden');
+                    generateAbstractBtn.disabled = false;
+                }
+            });
+
+            const hypothesisInput = document.getElementById('hypothesisInput');
+            const generateHypothesisBtn = document.getElementById('generateHypothesisBtn');
+            const generatedHypothesisOutput = document.getElementById('generatedHypothesisOutput');
+            const hypothesisLoadingSpinner = document.getElementById('hypothesisLoadingSpinner');
+
+            generateHypothesisBtn.addEventListener('click', async () => {
+                const promptText = hypothesisInput.value.trim();
+                if (!promptText) {
+                    generatedHypothesisOutput.textContent = 'অনুগ্রহ করে আপনার গবেষণা প্রশ্ন লিখুন।';
+                    generatedHypothesisOutput.classList.remove('hidden');
+                    return;
+                }
+
+                hypothesisLoadingSpinner.classList.remove('hidden');
+                generateHypothesisBtn.disabled = true;
+                generatedHypothesisOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `এই গবেষণা প্রশ্নের জন্য একটি পরীক্ষাযোগ্য হাইপোথিসিস তৈরি করুন: "${promptText}"।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        generatedHypothesisOutput.textContent = result.candidates[0].content.parts[0].text;
+                        generatedHypothesisOutput.classList.remove('hidden');
+                    } else {
+                        generatedHypothesisOutput.textContent = 'হাইপোথিসিস জেনারেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        generatedHypothesisOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error generating hypothesis:', error);
+                    generatedHypothesisOutput.textContent = 'হাইপোথিসিস জেনারেট করার সময় একটি ত্রুটি হয়েছে।';
+                    generatedHypothesisOutput.classList.remove('hidden');
+                } finally {
+                    hypothesisLoadingSpinner.classList.add('hidden');
+                    generateHypothesisBtn.disabled = false;
+                }
+            });
+
+            const methodologyInput = document.getElementById('methodologyInput');
+            const suggestMethodologyBtn = document.getElementById('suggestMethodologyBtn');
+            const suggestedMethodologyOutput = document.getElementById('suggestedMethodologyOutput');
+            const methodologyLoadingSpinner = document.getElementById('methodologyLoadingSpinner');
+
+            suggestMethodologyBtn.addEventListener('click', async () => {
+                const promptText = methodologyInput.value.trim();
+                if (!promptText) {
+                    suggestedMethodologyOutput.textContent = 'অনুগ্রহ করে আপনার গবেষণা প্রশ্ন বা উদ্দেশ্য লিখুন।';
+                    suggestedMethodologyOutput.classList.remove('hidden');
+                    return;
+                }
+
+                methodologyLoadingSpinner.classList.remove('hidden');
+                suggestMethodologyBtn.disabled = true;
+                suggestedMethodologyOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `এই গবেষণা প্রশ্নের জন্য সবচেয়ে উপযুক্ত গবেষণা পদ্ধতি (গুণগত, পরিমাণগত, মিশ্র) কী হতে পারে এবং কেন? গবেষণা প্রশ্ন: ${promptText}। সংক্ষেপে ব্যাখ্যা করুন।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        suggestedMethodologyOutput.textContent = result.candidates[0].content.parts[0].text;
+                        suggestedMethodologyOutput.classList.remove('hidden');
+                    } else {
+                        suggestedMethodologyOutput.textContent = 'পদ্ধতি সুপারিশ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        suggestedMethodologyOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error suggesting methodology:', error);
+                    suggestedMethodologyOutput.textContent = 'পদ্ধতি সুপারিশ করার সময় একটি ত্রুটি হয়েছে।';
+                    suggestedMethodologyOutput.classList.remove('hidden');
+                } finally {
+                    methodologyLoadingSpinner.classList.add('hidden');
+                    suggestMethodologyBtn.disabled = false;
+                }
+            });
+
+            const dataCollectionAssistantInput = document.getElementById('dataCollectionAssistantInput');
+            const suggestDataCollectionBtn = document.getElementById('suggestDataCollectionBtn');
+            const suggestedDataCollectionOutput = document.getElementById('suggestedDataCollectionOutput');
+            const dataCollectionLoadingSpinner = document.getElementById('dataCollectionLoadingSpinner');
+
+            suggestDataCollectionBtn.addEventListener('click', async () => {
+                const promptText = dataCollectionAssistantInput.value.trim();
+                if (!promptText) {
+                    suggestedDataCollectionOutput.textContent = 'অনুগ্রহ করে আপনার প্রয়োজনীয় ডেটার ধরন বর্ণনা করুন।';
+                    suggestedDataCollectionOutput.classList.remove('hidden');
+                    return;
+                }
+
+                dataCollectionLoadingSpinner.classList.remove('hidden');
+                suggestDataCollectionBtn.disabled = true;
+                suggestedDataCollectionOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `এই ডেটার জন্য সবচেয়ে উপযুক্ত ডেটা সংগ্রহের কৌশল বা উৎস কী হতে পারে? ডেটার ধরন: "${promptText}"। সম্ভাব্য কৌশল এবং উৎসগুলির একটি তালিকা দিন।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        suggestedDataCollectionOutput.textContent = result.candidates[0].content.parts[0].text;
+                        suggestedDataCollectionOutput.classList.remove('hidden');
+                    } else {
+                        suggestedDataCollectionOutput.textContent = 'ডেটা সংগ্রহের কৌশল সুপারিশ করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        suggestedDataCollectionOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error suggesting data collection:', error);
+                    suggestedDataCollectionOutput.textContent = 'ডেটা সংগ্রহের কৌশল সুপারিশ করার সময় একটি ত্রুটি হয়েছে।';
+                    suggestedDataCollectionOutput.classList.remove('hidden');
+                } finally {
+                    dataCollectionLoadingSpinner.classList.add('hidden');
+                    suggestDataCollectionBtn.disabled = false;
+                }
+            });
+
+            const dataInterpretationInput = document.getElementById('dataInterpretationInput');
+            const interpretDataBtn = document.getElementById('interpretDataBtn');
+            const dataInterpretationOutput = document.getElementById('dataInterpretationOutput');
+            const dataInterpretationLoadingSpinner = document.getElementById('dataInterpretationLoadingSpinner');
+
+            interpretDataBtn.addEventListener('click', async () => {
+                const promptText = dataInterpretationInput.value.trim();
+                if (!promptText) {
+                    dataInterpretationOutput.textContent = 'অনুগ্রহ করে আপনার ফলাফল সংক্ষেপে লিখুন।';
+                    dataInterpretationOutput.classList.remove('hidden');
+                    return;
+                }
+
+                dataInterpretationLoadingSpinner.classList.remove('hidden');
+                interpretDataBtn.disabled = true;
+                dataInterpretationOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `এই গবেষণার ফলাফল বা ডেটার মূল বিষয়বস্তু ব্যাখ্যা করুন এবং মূল বার্তা তৈরি করুন: "${promptText}"।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        dataInterpretationOutput.textContent = result.candidates[0].content.parts[0].text;
+                        dataInterpretationOutput.classList.remove('hidden');
+                    } else {
+                        dataInterpretationOutput.textContent = 'ডেটা ব্যাখ্যা করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        dataInterpretationOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error interpreting data:', error);
+                    dataInterpretationOutput.textContent = 'ডেটা ব্যাখ্যা করার সময় একটি ত্রুটি হয়েছে।';
+                    dataInterpretationOutput.classList.remove('hidden');
+                } finally {
+                    dataInterpretationLoadingSpinner.classList.add('hidden');
+                    interpretDataBtn.disabled = false;
+                }
+            });
+
+            const ethicalInput = document.getElementById('ethicalInput');
+            const generateEthicalChecklistBtn = document.getElementById('generateEthicalChecklistBtn');
+            const generatedEthicalChecklistOutput = document.getElementById('generatedEthicalChecklistOutput');
+            const ethicalLoadingSpinner = document.getElementById('ethicalLoadingSpinner');
+
+            generateEthicalChecklistBtn.addEventListener('click', async () => {
+                const promptText = ethicalInput.value.trim();
+                if (!promptText) {
+                    generatedEthicalChecklistOutput.textContent = 'অনুগ্রহ করে আপনার গবেষণার ধরন বা বিষয়বস্তু লিখুন।';
+                    generatedEthicalChecklistOutput.classList.remove('hidden');
+                    return;
+                }
+
+                ethicalLoadingSpinner.classList.remove('hidden');
+                generateEthicalChecklistBtn.disabled = true;
+                generatedEthicalChecklistOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `এই গবেষণার ধরন বা বিষয়বস্তুর জন্য একটি মৌলিক নৈতিক বিবেচনার চেকলিস্ট তৈরি করুন: "${promptText}"। বুলেট পয়েন্ট ব্যবহার করে।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        generatedEthicalChecklistOutput.textContent = result.candidates[0].content.parts[0].text;
+                        generatedEthicalChecklistOutput.classList.remove('hidden');
+                    } else {
+                        generatedEthicalChecklistOutput.textContent = 'চেকলিস্ট জেনারেট করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        generatedEthicalChecklistOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error generating ethical checklist:', error);
+                    generatedEthicalChecklistOutput.textContent = 'চেকলিস্ট জেনারেট করার সময় একটি ত্রুটি হয়েছে।';
+                    generatedEthicalChecklistOutput.classList.remove('hidden');
+                } finally {
+                    ethicalLoadingSpinner.classList.add('hidden');
+                    generateEthicalChecklistBtn.disabled = false;
+                }
+            });
+
+            const biasDetectorInput = document.getElementById('biasDetectorInput');
+            const detectBiasBtn = document.getElementById('detectBiasBtn');
+            const detectedBiasOutput = document.getElementById('detectedBiasOutput');
+            const biasLoadingSpinner = document.getElementById('biasLoadingSpinner');
+
+            detectBiasBtn.addEventListener('click', async () => {
+                const promptText = biasDetectorInput.value.trim();
+                if (!promptText) {
+                    detectedBiasOutput.textContent = 'অনুগ্রহ করে একটি গবেষণা পরিস্থিতি বর্ণনা করুন।';
+                    detectedBiasOutput.classList.remove('hidden');
+                    return;
+                }
+
+                biasLoadingSpinner.classList.remove('hidden');
+                detectBiasBtn.disabled = true;
+                detectedBiasOutput.classList.add('hidden');
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `এই গবেষণা পরিস্থিতিতে সম্ভাব্য পক্ষপাত (bias) কী হতে পারে এবং কেন? পরিস্থিতি: "${promptText}"।` }] });
+                    const payload = { contents: chatHistory };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        detectedBiasOutput.textContent = result.candidates[0].content.parts[0].text;
+                        detectedBiasOutput.classList.remove('hidden');
+                    } else {
+                        detectedBiasOutput.textContent = 'পক্ষপাত শনাক্ত করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                        detectedBiasOutput.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error detecting bias:', error);
+                    detectedBiasOutput.textContent = 'পক্ষপাত শনাক্ত করার সময় একটি ত্রুটি হয়েছে।';
+                    detectedBiasOutput.classList.remove('hidden');
+                } finally {
+                    biasLoadingSpinner.classList.add('hidden');
+                    detectBiasBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
